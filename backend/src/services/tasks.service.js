@@ -8,7 +8,7 @@ controllers dependan directamente de cómo se almacenan los datos
 y para permitir que la lógica crezca sin ensuciar la capa HTTP.
 */
 
-const { getAllTasks, addTask }= require("../store/tasks.store");
+const { getAllTasks, addTask, updateTaskById, deleteTaskById }= require("../store/tasks.store");
 const crypto = require("crypto");
 
 // devuelve todas las tareas
@@ -28,7 +28,24 @@ function createTask({title, description}){
     return addTask(newTask);
 }
 
+// edita una tarea por id
+function editTask(id, payload){
+    const allowed= {};
+    if(payload.title !== undefined) allowed.title= payload.title;
+    if(payload.description !== undefined) allowed.description = payload.description;
+    if(payload.completed !== undefined) allowed.completed = payload.completed;
+
+    return updateTaskById(id, allowed);
+}
+
+// elimina una tarea por id
+function removeTask(id){
+    return deleteTaskById(id);
+}
+
 module.exports = {
     listTasks,
     createTask,
+    editTask,
+    removeTask,
 };
