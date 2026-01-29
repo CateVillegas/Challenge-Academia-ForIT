@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require("cors");
+const { errorHandler } = require("./middlewares/errorHandler");
+const { router: tasksRouter } = require("./routes/tasks.routes");
 
 const app = express();
 
@@ -13,9 +15,15 @@ app.use(
     })
 );
 
-//Hago un enpoint tecnico para verificar que el servidor esta vivo. 
+//Hago un endpoint tecnico para verificar que el servidor esta vivo. 
 app.get("/health", (req,res) => {
     res.status(200).json({ok: true});
 });
+
+
+app.use("/api/tasks", tasksRouter);
+
+
+app.use(errorHandler);
 
 module.exports = { app };
