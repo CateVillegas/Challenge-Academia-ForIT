@@ -31,7 +31,11 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   // 204 No Content no trae body
   if (res.status === 204) return undefined as T;
 
-  return (await res.json()) as T;
+  // A veces un 201/200 puede venir sin body. Evitamos romper res.json()
+  const text = await res.text();
+  if (!text) return undefined as T;
+
+  return JSON.parse(text) as T;
 }
 
 export async function getTasks(): Promise<Task[]> {
