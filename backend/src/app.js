@@ -15,15 +15,23 @@ app.use(
     })
 );
 
+// logger middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
+
 //Hago un endpoint tecnico para verificar que el servidor esta vivo. 
 app.get("/health", (req,res) => {
     res.status(200).json({ok: true});
 });
 
-
+//routes
 app.use("/api/tasks", tasksRouter);
 
 
+// error handler
 app.use(errorHandler);
 
 module.exports = { app };
