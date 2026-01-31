@@ -104,6 +104,7 @@ El proyecto utiliza variables de entorno para evitar valores hardcodeados y faci
 En la carpeta `backend`, crear un archivo `.env` con las siguientes variables:
 
 PORT=3000
+
 CORS_ORIGIN=http://localhost:5173
 
 - `PORT` define el puerto en el que se ejecuta el servidor Express.
