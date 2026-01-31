@@ -81,6 +81,7 @@ Para ejecutar la aplicación localmente es necesario tener Node.js instalado.
 git clone <url-del-repositorio>
 cd Challenge-Academia-ForIT
 
+
 # Backend
 cd backend
 npm install
@@ -129,7 +130,7 @@ Para usar los ejemplos, copiá cada archivo `.env.example` a `.env` en la misma 
 ```bash
 cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
-
+```
 ## Funcionalidades implementadas
 
 - Crear tareas
