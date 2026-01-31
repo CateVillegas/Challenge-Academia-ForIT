@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteTask, getTasks } from "../services/tasksApi";
 import type { Task } from "../types/task";
@@ -40,47 +40,119 @@ export default function TaskList() {
     load();
   }, []);
 
-  if (loading) return <p>Cargando tareas...</p>;
-  if (error)
-    return (
-      <div>
-        <p style={{ color: "crimson" }}>Error: {error}</p>
-        <button onClick={load}>Reintentar</button>
-      </div>
-    );
+  const stats = useMemo(() => {
+    const total = tasks.length;
+    const done = tasks.filter((t) => t.completed).length;
+    const pending = total - done;
+    return { total, done, pending };
+  }, [tasks]);
+
+  if (loading) return <p className="muted">Cargando tareas...</p>;
 
   return (
     <div>
-      <h1>TaskList</h1>
+      {/* === Cards de estadísticas === */}
+      <div className="grid3">
+        {/* Pendientes → LILA */}
+        <div className="card cardPad cardBorderPending">
+          <div className="statTop">
+            <div>
+              <div className="statLabel">Tareas pendientes</div>
+              <div className="statValue">{stats.pending}</div>
+            </div>
+            <div className="statPill">○</div>
+          </div>
+        </div>
 
-      <div style={{ marginBottom: 12 }}>
-        <Link to="/tasks/new">+ Nueva tarea</Link>
+        {/* Total → AMARILLO */}
+        <div className="card cardPad cardBorderTotal">
+          <div className="statTop">
+            <div>
+              <div className="statLabel">Total tareas</div>
+              <div className="statValue">{stats.total}</div>
+            </div>
+            <div className="statPill">≡</div>
+          </div>
+        </div>
+
+        {/* Completadas → VERDE */}
+        <div className="card cardPad cardBorderDone">
+          <div className="statTop">
+            <div>
+              <div className="statLabel">Completadas</div>
+              <div className="statValue">{stats.done}</div>
+            </div>
+            <div className="statPill">✓</div>
+          </div>
+        </div>
       </div>
 
-      {tasks.length === 0 ? (
-        <p>No hay tareas todavía.</p>
-      ) : (
-        <ul>
-          {tasks.map((t) => (
-            <li
-              key={t.id}
-              style={{
-                marginBottom: 8,
-                display: "flex",
-                gap: 10,
-                alignItems: "center",
-              }}
-            >
-              <Link to={`/tasks/${t.id}`}>{t.title}</Link>
-              {t.completed ? "✅" : "⬜"}
+      {/* === Lista de tareas === */}
+      <div className="card cardPad">
+        <div className="sectionHead">
+          <div>
+            <h2 className="h2">Mis tareas</h2>
+            <div className="muted">Administrá tu lista de tareas</div>
+          </div>
 
-              <button onClick={() => handleDelete(t.id)}>
-                Eliminar
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+          <Link className="button buttonPrimary" to="/tasks/new">
+            + Nueva tarea
+          </Link>
+        </div>
+
+        {error && <div className="error">Error: {error}</div>}
+
+        {tasks.length === 0 ? (
+          <p className="muted">No hay tareas todavía.</p>
+        ) : (
+          <ul className="list">
+            {tasks.map((t) => (
+              <li key={t.id} className="item">
+                <div className="itemTop">
+                  <Link className="itemTitle" to={`/tasks/${t.id}`}>
+                    {t.title}
+                  </Link>
+
+                  <span
+                    className={
+                      t.completed
+                        ? "badge badgeDone"
+                        : "badge badgePending"
+                    }
+                  >
+                    {t.completed ? "Completada" : "Pendiente"}
+                  </span>
+                </div>
+
+                <div className="muted">
+                  {t.description ? t.description : "(sin descripción)"}
+                </div>
+
+                <div
+                  className="row"
+                  style={{ justifyContent: "space-between" }}
+                >
+                  <div className="muted">
+                    {new Date(t.createdAt).toLocaleDateString()}
+                  </div>
+
+                  <div className="row">
+                    <Link className="button" to={`/tasks/${t.id}/edit`}>
+                      Editar
+                    </Link>
+                    <button
+                      className="button buttonDanger"
+                      onClick={() => handleDelete(t.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

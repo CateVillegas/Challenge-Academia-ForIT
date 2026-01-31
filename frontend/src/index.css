@@ -1,5 +1,292 @@
-body {
+:root{
+  --bg: #0b0d10;
+  --panel: #10141b;
+  --panel-2: #0f131a;
+
+  --border: rgba(255,255,255,.08);
+  --text: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.60);
+  --muted2: rgba(255,255,255,.45);
+
+  /* Paleta */
+  --accent: #5FB3B3;     /* teal principal */
+  --accent-2: #8B8CF8;   /* lila complemento */
+
+  --radius: 16px;
+  --radius-sm: 12px;
+  --shadow: 0 18px 60px rgba(0,0,0,.55);
+  --shadow-soft: 0 10px 30px rgba(0,0,0,.35);
+}
+
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
+
+body{
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  /* Fondo sólido (evita franjas raras al final) */
+  background: var(--bg);
+
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Fondo "vibe" fijo y suave (no se deforma al scrollear) */
+body::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+
+  background:
+    radial-gradient(1200px 800px at 20% -20%, rgba(95,179,179,.14), transparent 60%),
+    radial-gradient(1200px 800px at 100% 0%, rgba(139,140,248,.12), transparent 55%),
+    radial-gradient(900px 700px at 60% 110%, rgba(139,140,248,.08), transparent 60%);
+
+  filter: blur(10px);
+  opacity: .9;
+}
+
+a{ color: inherit; text-decoration: none; }
+a:hover{ opacity: .92; }
+
+.container{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px 18px 60px;
+}
+
+.header{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.brandWrap{
+  display: grid;
+  gap: 2px;
+}
+
+.brand{
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+.subtitle{
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.nav{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.navLink{
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.03);
+  border-radius: 999px;
+  color: var(--muted);
+}
+.navLink:hover{ color: var(--text); }
+
+/* Nav: botón activo violeta */
+.navLinkActivePurple{
+  background: #B6B7FF;
+  color: #2e2f6f;
+  border: none;
+  font-weight: 700;
+}
+
+.grid3{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 18px 0 18px;
+}
+@media (max-width: 800px){
+  .grid3{ grid-template-columns: 1fr; }
+}
+
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.cardPad{ padding: 16px; }
+
+.statTop{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.statLabel{ font-size: 12px; color: var(--muted); }
+.statValue{ font-size: 30px; font-weight: 800; margin-top: 6px; }
+.statPill{
+  width: 36px; height: 36px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.03);
+  display: grid; place-items: center;
+  color: var(--accent-2); /* lila */
+}
+
+.sectionHead{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.h1{
+  font-size: 26px;
+  margin: 0;
+}
+.h2{
+  font-size: 16px;
+  margin: 0;
+}
+.muted{ color: var(--muted); font-size: 13px; }
+
+.row{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.input{
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.03);
+  color: var(--text);
+  outline: none;
+}
+.input::placeholder{ color: rgba(255,255,255,.35); }
+
+.button{
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.03);
+  color: var(--text);
+  cursor: pointer;
+}
+.button:hover{ background: rgba(255,255,255,.05); }
+
+.buttonPrimary{
+  background: linear-gradient(180deg, #5FB3B3, #4CA3A3);
+  border: 1px solid rgba(95,179,179,.55);
+  color: #0b0d10;
+  font-weight: 700;
+}
+.buttonPrimary:hover{
+  filter: brightness(1.05);
+}
+
+.buttonDanger{
+  background: #ff5c5c; /* rojo moderno */
+  border: none;
+  color: white;
+  font-weight: 600;
+}
+.buttonDanger:hover{
+  filter: brightness(1.05);
+}
+
+.list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.item{
+  padding: 14px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,.18);
+  display: grid;
+  gap: 6px;
+}
+
+.itemTop{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.itemTitle{
+  font-weight: 700;
+}
+
+/* Badges */
+.badge{
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* Pendiente → lila (C° 2010) */
+.badgePending{
+  background: #B6B7FF;
+  color: #2e2f6f;
+  border: none;
+}
+
+/* Completada → verde (Aceptada) */
+.badgeDone{
+  background: #C8F7D4;
+  color: #1f7a3f;
+  border: none;
+}
+
+.error{
+  color: #ffb3b3;
+  background: rgba(255, 77, 77, .12);
+  border: 1px solid rgba(255, 77, 77, .25);
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+/* === Bordes stats (arriba) === */
+
+/* Pendientes → LILA */
+.cardBorderPending{
+  border-color: rgba(182, 183, 255, .65);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35),
+    0 0 0 1px rgba(182, 183, 255, .25);
+}
+
+/* Total → AMARILLO */
+.cardBorderTotal{
+  border-color: rgba(255, 202, 77, .55);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35),
+    0 0 0 1px rgba(255, 202, 77, .18);
+}
+
+/* Completadas → VERDE */
+.cardBorderDone{
+  border-color: rgba(74, 222, 128, .65);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35),
+    0 0 0 1px rgba(74, 222, 128, .22);
 }

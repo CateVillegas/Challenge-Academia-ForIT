@@ -1,9 +1,6 @@
-//pantalla de crear/editar
-//es el mismo componente para crear y editar, y le pasamos un mode (para evitar duplicar pantallas)
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { createTask, getTasks, updateTask } from "../services/tasksApi";
-import type { Task } from "../types/task";
 
 type Props = {
   mode: "create" | "edit";
@@ -21,7 +18,6 @@ export default function TaskForm({ mode }: Props) {
   const [prefillLoading, setPrefillLoading] = useState(mode === "edit");
   const [error, setError] = useState<string | null>(null);
 
-  // 1) Precargar datos si estamos en modo edit
   useEffect(() => {
     async function prefill() {
       if (mode !== "edit") return;
@@ -57,7 +53,6 @@ export default function TaskForm({ mode }: Props) {
     prefill();
   }, [mode, id]);
 
-  // 2) Submit: create o edit según modo
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -76,7 +71,6 @@ export default function TaskForm({ mode }: Props) {
         return;
       }
 
-      // modo edit
       if (!id) {
         setError("Falta el id en la URL");
         return;
@@ -92,57 +86,66 @@ export default function TaskForm({ mode }: Props) {
     }
   }
 
-  if (prefillLoading) return <p>Cargando datos de la tarea...</p>;
+  if (prefillLoading) return <p className="muted">Cargando datos...</p>;
 
   return (
-    <div>
-      <h1>{mode === "create" ? "Nueva tarea" : "Editar tarea"}</h1>
-
-      <form onSubmit={handleSubmit}>
+    <div className="card cardPad">
+      <div className="sectionHead">
         <div>
-          <label>
-            Título
+          <h1 className="h1">{mode === "create" ? "Nueva tarea" : "Editar tarea"}</h1>
+          <div className="muted">
+            {mode === "create" ? "Creá una nueva tarea" : "Modificá tu tarea"}
+          </div>
+        </div>
+      </div>
+
+      {error && <div className="error">Error: {error}</div>}
+
+      <form onSubmit={handleSubmit} style={{ marginTop: 12 }}>
+        <div style={{ display: "grid", gap: 10 }}>
+          <div>
+            <div className="muted" style={{ marginBottom: 6 }}>Título</div>
             <input
+              className="input"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               disabled={loading}
+              placeholder="Ej: Comprar leche"
             />
-          </label>
-        </div>
+          </div>
 
-        <div>
-          <label>
-            Descripción
+          <div>
+            <div className="muted" style={{ marginBottom: 6 }}>Descripción</div>
             <input
+              className="input"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               disabled={loading}
+              placeholder="Ej: Ir al súper"
             />
-          </label>
-        </div>
+          </div>
 
-        {mode === "edit" && (
-          <div>
-            <label>
+          {mode === "edit" && (
+            <label className="row" style={{ gap: 10 }}>
               <input
                 type="checkbox"
                 checked={completed}
                 onChange={(e) => setCompleted(e.target.checked)}
                 disabled={loading}
               />
-              Completada
+              <span>Marcar como completada</span>
             </label>
-          </div>
-        )}
+          )}
+        </div>
 
-        {error && <p style={{ color: "crimson" }}>{error}</p>}
+        <div className="row" style={{ marginTop: 16, justifyContent: "space-between" }}>
+          <Link className="button" to={mode === "edit" && id ? `/tasks/${id}` : "/"}>
+            Cancelar
+          </Link>
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Guardando..." : "Guardar"}
-        </button>
-
-        <div style={{ marginTop: 12 }}>
-          <Link to={mode === "edit" && id ? `/tasks/${id}` : "/"}>Cancelar</Link>
+          <button className="button buttonPrimary" type="submit" disabled={loading}>
+            {loading ? "Guardando..." : "Guardar"}
+          </button>
         </div>
       </form>
     </div>

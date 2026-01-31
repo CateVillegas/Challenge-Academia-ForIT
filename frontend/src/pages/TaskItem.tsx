@@ -1,4 +1,3 @@
-//detalle de una task
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getTasks } from "../services/tasksApi";
@@ -34,18 +33,17 @@ export default function TaskItem() {
 
   useEffect(() => {
     load();
-    // cuando cambia el id (si navegás entre detalles), vuelve a cargar
   }, [id]);
 
-  if (loading) return <p>Cargando tarea...</p>;
+  if (loading) return <p className="muted">Cargando tarea...</p>;
 
   if (error) {
     return (
-      <div>
-        <p style={{ color: "crimson" }}>Error: {error}</p>
-        <button onClick={load}>Reintentar</button>
-        <div style={{ marginTop: 12 }}>
-          <Link to="/">Volver</Link>
+      <div className="card cardPad">
+        <div className="error">Error: {error}</div>
+        <div className="row" style={{ marginTop: 12 }}>
+          <button className="button" onClick={load}>Reintentar</button>
+          <Link className="button" to="/">Volver</Link>
         </div>
       </div>
     );
@@ -53,26 +51,41 @@ export default function TaskItem() {
 
   if (!task) {
     return (
-      <div>
-        <h1>Tarea no encontrada</h1>
-        <p>No existe una tarea con id: <b>{id}</b></p>
-        <Link to="/">Volver</Link>
+      <div className="card cardPad">
+        <h1 className="h1">Tarea no encontrada</h1>
+        <p className="muted">
+          No existe una tarea con id: <b>{id}</b>
+        </p>
+        <div className="row" style={{ marginTop: 12 }}>
+          <Link className="button" to="/">Volver</Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <h1>{task.title}</h1>
+    <div className="card cardPad">
+      <div className="sectionHead">
+        <div>
+          <h1 className="h1" style={{ marginBottom: 6 }}>{task.title}</h1>
+          <div className="muted">
+            {task.description ? task.description : "(sin descripción)"}
+          </div>
+        </div>
 
-      <p><b>ID:</b> {task.id}</p>
-      <p><b>Descripción:</b> {task.description || "(sin descripción)"}</p>
-      <p><b>Estado:</b> {task.completed ? "Completada ✅" : "Pendiente ⬜"}</p>
-      <p><b>Creada:</b> {new Date(task.createdAt).toLocaleString()}</p>
+        <span className={`badge ${task.completed ? "badgeDone" : ""}`}>
+          {task.completed ? "Completada" : "Pendiente"}
+        </span>
+      </div>
 
-      <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
-        <Link to="/">Volver</Link>
-        <Link to={`/tasks/${task.id}/edit`}>Editar</Link>
+      <div className="muted" style={{ marginTop: 10 }}>
+        <div><b>ID:</b> {task.id}</div>
+        <div><b>Creada:</b> {new Date(task.createdAt).toLocaleString()}</div>
+      </div>
+
+      <div className="row" style={{ marginTop: 16 }}>
+        <Link className="button" to="/">Volver</Link>
+        <Link className="button buttonPrimary" to={`/tasks/${task.id}/edit`}>Editar</Link>
       </div>
     </div>
   );
