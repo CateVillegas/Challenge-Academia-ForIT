@@ -157,13 +157,18 @@ cp frontend/.env.example frontend/.env
 
 ## Capturas de pantalla
 
-Se incluyen capturas de la aplicación funcionando correspondientes a:
+Se incluyen capturas de la aplicación funcionando que se encuentran en la carpeta screenshots del repositorio.
 
-- Pantalla principal con lista de tareas y estadísticas
-- Formulario de creación de tareas
-- Formulario de edición de tareas
-- Vista de detalle de una tarea
+### Lista de tareas
+![TaskList](screenshots/tasklist.png)
 
-Las imágenes se encuentran en la carpeta screenshots del repositorio.
+### Crear tarea
+![Crear tarea](screenshots/taskform-create.png)
+
+### Editar tarea
+![Editar tarea](screenshots/taskform-edit.png)
+
+### Detalle de tarea
+![Detalle tarea](screenshots/taskitem.png)
 
 
