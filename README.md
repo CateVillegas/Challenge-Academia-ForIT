@@ -158,7 +158,7 @@ cp frontend/.env.example frontend/.env
 
 ## Capturas de pantalla
 
-Se incluyen capturas de la aplicación funcionando que se encuentran en la carpeta screenshots del repositorio.
+Se incluyen capturas de la aplicación funcionando:
 
 ### Lista de tareas
 ![TaskList](screenshots/tasklist.png)
@@ -171,5 +171,8 @@ Se incluyen capturas de la aplicación funcionando que se encuentran en la carpe
 
 ### Detalle de tarea
 ![Detalle tarea](screenshots/taskitem.png)
+
+### Eliminar tarea
+![Eliminar tarea](screenshots/taskform-delete.png)
 
 
