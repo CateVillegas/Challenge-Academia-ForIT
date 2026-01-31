@@ -5,7 +5,7 @@ import type { CreateTaskPayload, Task, UpdateTaskPayload } from "../types/task";
 const API_URL = import.meta.env.VITE_API_URL as string;
 
 function getErrorMessage(bodyText: string) {
-  // Intentamos parsear JSON tipo { error: "..." }, si falla usamos texto plano
+  // intento parsear JSON tipo { error: "..." }, si falla usamos texto plano
   try {
     const parsed = JSON.parse(bodyText) as { error?: string };
     return parsed.error ?? bodyText;
