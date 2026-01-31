@@ -97,24 +97,37 @@ El frontend queda disponible en http://localhost:5173
 
 ### Variables de entorno
 
-En la carpeta backend, crear un archivo `.env` con:
-PORT=3000
+El proyecto utiliza variables de entorno para evitar valores hardcodeados y facilitar la configuración local.
 
-En la carpeta frontend, crear un archivo `.env` con:
+#### Backend
+
+En la carpeta `backend`, crear un archivo `.env` con las siguientes variables:
+
+PORT=3000
+CORS_ORIGIN=http://localhost:5173
+
+- `PORT` define el puerto en el que se ejecuta el servidor Express.
+- `CORS_ORIGIN` indica desde qué origen el frontend puede consumir la API (configuración de CORS).
+
+#### Frontend
+
+En la carpeta `frontend`, crear un archivo `.env` con la siguiente variable:
+
 VITE_API_URL=http://localhost:3000
+
+
+Esta variable define la URL base del backend que utiliza el frontend para realizar las llamadas a la API.
 
 Se incluyen archivos de ejemplo de variables de entorno en el repositorio para facilitar la configuración:
 
-- `backend/.env.example` — contiene las variables mínimas para el servidor (ej. `PORT`, `NODE_ENV`).
-- `frontend/.env.example` — contiene `VITE_API_URL` apuntando al backend local.
+- `backend/.env.example`
+- `frontend/.env.example`
 
-Para usar los ejemplos, copiá cada archivo `.env.example` a `.env` en la misma carpeta y, si es necesario, ajustá los valores.
+Para usar los ejemplos, copiá cada archivo `.env.example` a `.env` en la misma carpeta y, si es necesario, ajustá los valores:
 
 ```bash
-# desde la raíz del repo (bash)
 cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
-```
 
 ## Funcionalidades implementadas
 
