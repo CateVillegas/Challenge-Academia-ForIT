@@ -4,7 +4,7 @@ const { errorHandler } = require("./middlewares/errorHandler");
 const { router: tasksRouter } = require("./routes/tasks.routes");
 
 const app = express();
-
+//permite parsear json en req body
 //permite parsear json en req body
 app.use(express.json());
 
